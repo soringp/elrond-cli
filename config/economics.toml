@@ -1,0 +1,17 @@
+#Econimics config of the node
+[EconomicsAddresses]
+    CommunityAddress = "6ff915bb40b7715edb2357caf16c867a8c0fbbeada0ddde92d2323519e2d74fd"
+    BurnAddress = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeefdeadbeef"
+[RewardsSettings]
+    RewardsValue = "20000000000000000000" #20ERD
+    CommunityPercentage = 0.10
+    LeaderPercentage = 0.50
+    BurnPercentage = 0.40
+    DenominationCoefficientForView = "0.000000000000000001" #10^-18
+[FeeSettings]
+    MaxGasLimitPerBlock = "1500000000"
+    MinGasPrice = "100000000000000" #will yield min tx fee of 10ERD
+    MinGasLimit = "100000"
+[ValidatorSettings]
+    StakeValue = "500000000000000000000000" #500000ERD
+    UnBoundPeriod = "100000"
