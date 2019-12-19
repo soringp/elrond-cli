@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/ElrondNetwork/elrond-go/config"
 	"github.com/ElrondNetwork/elrond-go/core"
@@ -33,10 +34,20 @@ func TransferCommand() cli.Command {
 				Usage: "How many tokens to send per transaction",
 				Value: 1.0,
 			},
+			cli.Int64Flag{
+				Name:  "nonce",
+				Usage: "What nonce to use for sending the transaction",
+				Value: -1,
+			},
 			cli.StringFlag{
 				Name:  "data",
 				Usage: "Transaction data to use for sending the transaction",
 				Value: "",
+			},
+			cli.Int64Flag{
+				Name:  "sleep",
+				Usage: "How long the CLI should sleep after sending a transaction",
+				Value: -1,
 			},
 			cli.StringFlag{
 				Name:  "config",
@@ -68,6 +79,8 @@ func sendTransactionCommand(ctx *cli.Context) error {
 	amount := ctx.Float64("amount")
 	txData := ctx.String("data")
 	apiHost := ctx.GlobalString("api-endpoint")
+	nonce := ctx.Int64("nonce")
+	sleep := ctx.Int64("sleep")
 
 	configPath := ctx.String("config")
 	gasPrice, gasLimit, err := parseGasSettings(configPath)
@@ -76,13 +89,17 @@ func sendTransactionCommand(ctx *cli.Context) error {
 		return err
 	}
 
-	txHexHash, err := transactions.SendTransaction(encodedKey, receiver, amount, txData, gasPrice, gasLimit, apiHost)
+	txHexHash, err := transactions.SendTransaction(encodedKey, receiver, amount, nonce, txData, gasPrice, gasLimit, apiHost)
 
 	if err != nil {
 		return err
 	}
 
 	fmt.Println(fmt.Sprintf("Success! Your pending transaction hash is: %s", txHexHash))
+
+	if sleep > 0 {
+		time.Sleep(time.Duration(sleep) * time.Second)
+	}
 
 	return nil
 }

@@ -19,3 +19,4 @@
 .env
 *.log
 /dist
+/cmd/cmd

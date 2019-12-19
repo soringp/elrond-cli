@@ -24,6 +24,7 @@ func main() {
 
 	app.Commands = []cli.Command{}
 	app.Commands = append(app.Commands, cmd.TransferCommand())
+	app.Commands = append(app.Commands, cmd.BalanceCommand())
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
