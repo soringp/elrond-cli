@@ -4,6 +4,8 @@ Elrond CLI is a CLI tool that aims users to interact with Elrond's blockchain us
 
 ## Installation
 
+Install the CLI using:
+
 `bash <(curl -s -S -L https://raw.githubusercontent.com/SebastianJ/elrond-cli/master/scripts/erd.sh)`
 
 The CLI tool should now be installed as `erd`
