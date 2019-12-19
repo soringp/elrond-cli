@@ -14,6 +14,12 @@ func BalanceCommand() cli.Command {
 	return cli.Command{
 		Name:  "balance",
 		Usage: "check the balance of a specific address",
+		Flags: []cli.Flag{
+			cli.BoolFlag{
+				Name:  "number",
+				Usage: "Only output the actual balance number",
+			},
+		},
 		Action: func(ctx *cli.Context) error {
 			return sendBalanceCommand(ctx)
 		},
@@ -23,6 +29,7 @@ func BalanceCommand() cli.Command {
 func sendBalanceCommand(ctx *cli.Context) error {
 	apiHost := ctx.GlobalString("api-endpoint")
 	address := ctx.Args().Get(0)
+	onlyNumber := ctx.Bool("number")
 
 	if address == "" || len(address) < 64 {
 		return errors.New("please provide a valid address")
@@ -35,9 +42,13 @@ func sendBalanceCommand(ctx *cli.Context) error {
 	}
 
 	balance := accountData.Balance
-	val, _ := utils.ConvertNumeralStringToBigFloat(balance)
+	converted, _ := utils.ConvertNumeralStringToBigFloat(balance)
 
-	fmt.Println(fmt.Sprintf("Balance for %s is: %f", address, val))
+	if onlyNumber {
+		fmt.Println(fmt.Sprintf("%f", converted))
+	} else {
+		fmt.Println(fmt.Sprintf("Balance for %s is: %f", address, converted))
+	}
 
 	return nil
 }
